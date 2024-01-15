@@ -1,4 +1,5 @@
 
-01_2024_Aggregate_Attribution/.vscode/settings.json
+settings.json
 *.xlsx
 *.pyc
+.vscode/settings.json
