@@ -1,3 +1,6 @@
+"""
+Send an email with an attached Excel file.
+"""
 import os
 import smtplib
 from email import encoders
@@ -6,9 +9,20 @@ from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 
 
-def send_email_with_excel(
-    sender_email, sender_password, receiver_email, subject, body, excel_file_path
-):
+def send_email_with_excel(sender_email, receiver_email, subject, body, excel_file_path):
+    """
+    Sends an email with an attached Excel file.
+
+    Args:
+        sender_email (str): The email address of the sender.
+        receiver_email (str): The email address of the receiver.
+        subject (str): The subject of the email.
+        body (str): The body of the email.
+        excel_file_path (str): The file path of the Excel file to be attached.
+
+    Returns:
+        None
+    """
     # Create a multipart message
     message = MIMEMultipart()
     message["From"] = sender_email
@@ -17,8 +31,8 @@ def send_email_with_excel(
 
     # Add body to email
     message.attach(MIMEText(body, "plain"))
-    # Open the file in bynary
-    with open(excel_file_path, "rb") as attachment:
+    # Open the file in binary
+    with open(excel_file_path, "rb"):
         # Add file as application/octet-stream
         # Email client can usually download this automatically as attachment
         part = MIMEBase("application", "octet-stream")
@@ -51,17 +65,19 @@ def send_email_with_excel(
 
 
 # Usage example
-sender_email = "a.ramadani@crossinvest.ch"
-sender_password = input("Type your password and press enter: ")
-receiver_email = "a.ramadani@crossinvest.ch"
-subject = "Contribution"
-body = """
+
+
+send_email_with_excel(
+    sender_email="a.ramadani@crossinvest.ch",
+    receiver_email="a.ramadani@crossinvest.ch",
+    subject="Contribution",
+    body="""
 Please find attached the Excel file.
 
 This mail was automatically generated. Please check the data before using it.
-"""
-excel_file_path = r"Z:\14_Personal_Data\a.ramadani\Code\01_2024_Aggregate_Attribution\output\output_file_mail.xlsx"
-
-send_email_with_excel(
-    sender_email, sender_password, receiver_email, subject, body, excel_file_path
+""",
+    excel_file_path=(
+        "Z:/14_Personal_Data/a.ramadani/Code/"
+        "01_2024_Aggregate_Attribution/output/output_file.xlsx"
+    ),
 )
