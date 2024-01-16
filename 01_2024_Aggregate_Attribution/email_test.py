@@ -52,7 +52,7 @@ def send_email_with_excel(
 
 # Usage example
 sender_email = "a.ramadani@crossinvest.ch"
-sender_password = "RamaCI*63"
+sender_password = input("Type your password and press enter: ")
 receiver_email = "a.ramadani@crossinvest.ch"
 subject = "Contribution"
 body = """
