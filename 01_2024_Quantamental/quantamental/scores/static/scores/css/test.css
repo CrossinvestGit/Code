@@ -1,0 +1,16 @@
+.container-fluid {
+    border: 2px solid red;
+}
+
+.row {
+    border: 2px solid blue;
+    height: 150px;
+}
+
+.col-9 {
+    border: 2px solid green;
+}
+
+.scores {
+    height: 100rem;
+}

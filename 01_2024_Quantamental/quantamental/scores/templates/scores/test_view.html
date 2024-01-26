@@ -1,0 +1,51 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'scores/css/test.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+<div class="container-fluid">
+
+
+    <div class="row">
+        <h1>TEST_VIEW.HTML</h1>
+    </div>
+
+    <div class="row justify-content-center">
+        <div class="col-9 display-5 d-flex align-items-center justify-content-center">
+            <p>Filter</p>
+        </div>
+    </div>
+    <div class="scores row justify-content-center">
+        <div class="col display-5 d-flex align-items-center justify-content-center">
+            <p>Scores</p>
+        </div>
+    </div>
+
+
+</div>
+{% endblock content %}
+
+
+
+
+<!-- {% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="{% static 'scores/css/test.css' %}">
+</head>
+
+<body>
+    <p>
+        This is a test
+    </p>
+</body>
+
+</html> -->
