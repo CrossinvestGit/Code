@@ -5,6 +5,18 @@
 <link rel="stylesheet" href="{% static 'css/logged_out.css' %}">
 {% endblock head %}
 {% block form-div-content%}
+<div id="form-div">
+    <h1>You have been logged out!</h1>
+    <!-- <h2>Click <form class="d-inline" method="post" action="{% url 'login' %}">
+            {% csrf_token %}
+            <button type="submit">here</button>
+        </form> -->
+
+
+    <h2>Click <a href="{% url 'login' %}">here</a>
+        to login.
+    </h2>
+</div>
 
 <!-- registration form -->
 {% endblock form-div-content %}

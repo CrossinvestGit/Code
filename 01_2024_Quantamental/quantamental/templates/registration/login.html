@@ -5,11 +5,7 @@
 <link rel="stylesheet" href="{% static 'css/login.css' %}">
 {% endblock head %}
 {% block form-div-content%}
-
 <h1>Login</h1>
-{% if form.errors %}
-<p>Your username or password was incorrect.</p>
-{% endif %}
 
 {% if next %}
 {% if user.is_authenticated %}
@@ -43,5 +39,11 @@
 
 
 </form>
+{% if form.errors %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    Your username or password is wrong!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
 
 {% endblock form-div-content %}
