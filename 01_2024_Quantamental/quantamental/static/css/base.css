@@ -149,6 +149,12 @@ a.sidebar-link:hover {
     color: white;
 }
 
+.sidebar-footer {
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+    /* You may need to adjust this depending on your layout */
+}
 
 /* bg-transparent p-0 border-0 text-white */
 /* adu */
