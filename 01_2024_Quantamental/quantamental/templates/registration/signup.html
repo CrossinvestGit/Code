@@ -5,5 +5,16 @@
 <link rel="stylesheet" href="{% static 'css/signup.css' %}">
 {% endblock head %}
 {% block form-div-content%}
+
+<h1>Register New User</h1>
+<form method="POST">
+    {% csrf_token %}
+    {{form.as_p}}
+</form>
+
+<input type="submit" value="signup">
+
+
+
 <!-- registration form -->
 {% endblock form-div-content %}
