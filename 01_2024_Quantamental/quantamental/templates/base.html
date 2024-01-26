@@ -101,10 +101,33 @@
                 </li>
             </ul>
             <div class="sidebar-footer">
-                <a href="#" class="sidebar-link">
+                <!-- <a href="#" class="sidebar-link">
                     <i class="lni lni-exit"></i>
                     <span>Logout</span>
-                </a>
+                </a> -->
+
+                <form class="sidebar-link" action="{% url 'logout' %}" method="POST">
+                    {% csrf_token %}
+                    <a href="#" class="sidebar-link">
+                        <button class="btn-logout" type="submit"><i
+                                class="lni lni-exit"></i><span>Logout</span></button>
+
+                    </a>
+                </form>
+
+
+
+                <!-- <a href="{% url 'logout' %}" class="sidebar-link">
+                    <form class="d-inline" action="{% url 'logout' %}" method="POST">
+                        {% csrf_token %}
+                        <button class="sidebar-link bg-transparent border-0 p-0 m-0 btn-white"
+                            onclick="logout()"></button>
+                        <i class="lni lni-exit"></i>
+                        </button>
+                    </form>
+                    <span>Logout</span>
+                </a> -->
+
             </div>
         </aside>
         <div class="main p-3">
