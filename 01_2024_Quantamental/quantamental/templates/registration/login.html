@@ -7,13 +7,6 @@
 {% block form-div-content%}
 <h1>Login</h1>
 
-{% if next %}
-{% if user.is_authenticated %}
-<p>You do not have permission for this page</p>
-{% else %}
-<p>Please login!</p>
-{% endif %}
-{% endif %}
 
 <form method="post" action="{% url 'login' %}">
     {% csrf_token %}
@@ -46,4 +39,18 @@
 </div>
 {% endif %}
 
+
+{% if next %}
+{% if user.is_authenticated %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    You do not have permission for this page.
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% else %}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    Please sign in!
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+</div>
+{% endif %}
+{% endif %}
 {% endblock form-div-content %}
