@@ -1,9 +1,4 @@
-h1 {
-    color: #083959;
-    padding-bottom: 1rem;
-}
-
-a {
+#here-link {
     text-decoration: none;
     color: #083959;
     height: 3rem;
@@ -14,7 +9,13 @@ a {
     margin-top: 1rem;
 }
 
-a:hover {
+#here-link:hover {
     box-shadow: 0 0.5em 0.375em -0.4em #083959;
     transform: translateY(-0.05em);
+}
+
+#form-div {
+    display: inline-block;
+    box-shadow: none;
+    transform: translate(0, 0);
 }
