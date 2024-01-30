@@ -2,6 +2,7 @@
 {% load static %}
 {% block head %}
 <link rel="stylesheet" href="{% static 'scores/css/test.css' %}">
+
 {% endblock head %}
 
 
@@ -19,8 +20,21 @@
         </div>
     </div>
     <div class="scores row justify-content-center">
-        <div class="col display-5 d-flex align-items-center justify-content-center">
-            <p>Scores</p>
+        <div class="col display-5 d-flex justify-content-center">
+            <table id="testTable">
+                <tr>
+                    <th>Product</th>
+                    <th>Category</th>
+                    <th>Price</th>
+                </tr>
+                {% for i in products %}
+                <tr>
+                    <td>{{i.name}}</td>
+                    <td>{{i.category}}</td>
+                    <td>{{i.price}}</td>
+                </tr>
+                {% endfor %}
+            </table>
         </div>
     </div>
 

@@ -13,19 +13,25 @@ from django.views.generic import (
     UpdateView,
 )
 
-# from . import models
+from . import models
 from .forms import UserRegisterForm
 
 
 # Create your views here.
 @login_required
 def scores_view(request):
-    return render(request, "scores/scores_view.html")
+    return render(request=request, template_name="scores/scores_view.html")
 
 
 @login_required
 def test_view(request):
-    return render(request, "scores/test_view.html")
+    context = {"products": models.Product.objects.all()}
+
+    return render(
+        request=request,
+        template_name="scores/test_view.html",
+        context=context,
+    )
 
 
 class SignUpView(CreateView):
