@@ -25,8 +25,10 @@ def scores_view(request):
 
 @login_required
 def test_view(request):
-    context = {"products": models.Product.objects.all()}
-
+    context = {
+        "products": models.Product.objects.all(),
+        "headers": ["Product", "Category", "Price"],
+    }
     return render(
         request=request,
         template_name="scores/test_view.html",

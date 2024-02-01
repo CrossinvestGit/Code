@@ -15,25 +15,49 @@
     </div>
 
     <div class="row justify-content-center">
-        <div class="col-9 display-5 d-flex align-items-center justify-content-center">
+        <!-- <div class="col-9 display-5 d-flex align-items-center justify-content-center">
             <p>Filter</p>
-        </div>
+        </div> -->
     </div>
     <div class="scores row justify-content-center">
-        <div class="col display-5 d-flex justify-content-center">
-            <table id="testTable">
-                <tr>
-                    <th>Product</th>
-                    <th>Category</th>
-                    <th>Price</th>
-                </tr>
-                {% for i in products %}
-                <tr>
-                    <td>{{i.name}}</td>
-                    <td>{{i.category}}</td>
-                    <td>{{i.price}}</td>
-                </tr>
-                {% endfor %}
+        <div class="col-9 p-5">
+
+
+            <!-- <p>
+                <label for="amount">Price range:</label>
+                <input type="text" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
+            </p> -->
+
+            <div id="slider-range" data-min="0" data-max="250" data-initial-values="0,250" data-column=2></div>
+
+
+
+
+
+            <table id="mytesttable" class="datatables-general table hover" style="width:100%">
+                <thead>
+                    <tr>
+                        {% for header in headers %}
+                        <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for i in products %}
+                    <tr>
+                        <td>{{i.name}}</td>
+                        <td>{{i.category}}</td>
+                        <td>{{i.price}}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+                <tfoot>
+                    <tr>
+                        {% for header in headers %}
+                        <th>{{ header }}</th>
+                        {% endfor %}
+                    </tr>
+                </tfoot>
             </table>
         </div>
     </div>
@@ -44,22 +68,5 @@
 
 
 
-
-<!-- {% load static %}
-<!DOCTYPE html>
-<html lang="en">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="{% static 'scores/css/test.css' %}">
-</head>
-
-<body>
-    <p>
-        This is a test
-    </p>
-</body>
-
-</html> -->
+{% block jsextra %}
+{% endblock jsextra %}
