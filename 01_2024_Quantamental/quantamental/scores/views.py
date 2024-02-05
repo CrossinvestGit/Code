@@ -17,7 +17,7 @@ from . import models
 from .forms import UserRegisterForm
 
 
-# Create your views here.
+# VIEWS:
 @login_required
 def scores_view(request):
     return render(request=request, template_name="scores/scores_view.html")
@@ -36,11 +36,8 @@ def test_view(request):
     )
 
 
+# FORMS:
 class SignUpView(CreateView):
     form_class = UserRegisterForm
     success_url = reverse_lazy("login")
     template_name = "registration/signup.html"
-
-
-#  def  signup_view(request):
-#    return render(request, 'registration/signup.html', {'form': form})
