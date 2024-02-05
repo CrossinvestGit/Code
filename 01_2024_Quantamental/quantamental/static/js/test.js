@@ -1,5 +1,5 @@
 $(document).ready(function () {
-    var table = $('.datatables-general').DataTable({
+    let table = $('.datatables-general').DataTable({
         select: true,
         responsive: true,
         searchPanes: {
@@ -23,7 +23,7 @@ $(document).ready(function () {
                     column.footer().replaceChildren(input);
 
                     // Event listener for user input
-                    input.addEventListener('keyup', () => {
+                    input.addEventListener('input', () => {
                         if (column.search() !== this.value) {
                             column.search(input.value).draw();
                         }
@@ -32,43 +32,54 @@ $(document).ready(function () {
         }
     });
 
+
+
     // Slider
     $(function () {
-        var $slider = $("#slider-range");
-        var min = parseInt($slider.data("min"));
-        var max = parseInt($slider.data("max"));
-        var initialValues = $slider.data("initial-values").split(',').map(Number);
-        var filterColumn = parseInt($slider.data("column"));
+        const $slider = $("#slider-range");
+        const min = parseInt($slider.data("min"));
+        const max = parseInt($slider.data("max"));
+        const initialValues = $slider.data("initial-values").split(',').map(Number);
+        const filterColumn = parseInt($slider.data("column"));
+        const minSpan = document.querySelector("#minSpan");
+        const maxSpan = document.querySelector("#maxSpan");
 
-        $("#slider-range").slider({
+
+        $slider.slider({
             range: true,
             min: min,
             max: max,
             values: initialValues,
             animate: 'slow',
             slide: function (event, ui) {
-                $("#amount").val(ui.values[0] + " - " + ui.values[1]);
+                const [min, max] = ui.values;
+                $("#amount").val(`${min} - ${max}`);
 
                 $.fn.dataTable.ext.search.pop();
-                $.fn.dataTable.ext.search.push(
-                    function (settings, data, dataIndex) {
-                        var min = ui.values[0];
-                        var max = ui.values[1];
-                        var columnValue = parseFloat(data[filterColumn]) || 0;
-
-                        if ((isNaN(min) && isNaN(max)) ||
-                            (isNaN(min) && columnValue <= max) ||
-                            (min <= columnValue && isNaN(max)) ||
-                            (min <= columnValue && columnValue <= max)) {
-                            return true;
-                        }
-                        return false;
-                    }
-                );
+                $.fn.dataTable.ext.search.push((settings, data, dataIndex) => {
+                    const columnValue = parseFloat(data[filterColumn]) || 0;
+                    return ((isNaN(min) && isNaN(max)) ||
+                        (isNaN(min) && columnValue <= max) ||
+                        (min <= columnValue && isNaN(max)) ||
+                        (min <= columnValue && columnValue <= max));
+                });
+                minSpan.innerText = min;
+                maxSpan.innerText = max;
 
                 // Redraw the DataTable
                 $('.datatables-general').DataTable().draw();
             }
         });
     });
+
+
+
+    $slider.addEventListener('input', (event) => {
+        const $slider = $("#slider-range");
+        const [min, max] = ui.values;
+        minSpan.innerText = value;
+        maxSpan.innerText = value;
+    });
+
+
 });
