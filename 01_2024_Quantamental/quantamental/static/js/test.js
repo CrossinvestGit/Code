@@ -6,7 +6,7 @@ $(document).ready(function () {
             show: true,
             cascadePanes: true,
             threshold: 1,
-            initCollapsed: true,
+            initCollapsed: true
         },
         dom: 'PBfrtip',
         pagingType: 'full_numbers',
@@ -43,6 +43,7 @@ $(document).ready(function () {
         const filterColumn = parseInt($slider.data("column"));
         const minSpan = document.querySelector("#minSpan");
         const maxSpan = document.querySelector("#maxSpan");
+        console.log(minSpan);
 
 
         $slider.slider({
@@ -53,6 +54,7 @@ $(document).ready(function () {
             animate: 'slow',
             slide: function (event, ui) {
                 const [min, max] = ui.values;
+                console.log(min, max);
                 $("#amount").val(`${min} - ${max}`);
 
                 $.fn.dataTable.ext.search.pop();
@@ -71,15 +73,4 @@ $(document).ready(function () {
             }
         });
     });
-
-
-
-    $slider.addEventListener('input', (event) => {
-        const $slider = $("#slider-range");
-        const [min, max] = ui.values;
-        minSpan.innerText = value;
-        maxSpan.innerText = value;
-    });
-
-
 });

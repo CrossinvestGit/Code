@@ -8,4 +8,6 @@ urlpatterns = [
     path(route="signup/", view=views.SignUpView.as_view(), name="signup_view"),
     path(route="scores/", view=views.scores_view, name="scores_view"),
     path(route="test/", view=views.test_view, name="test_view"),
+    path(route="stock/", view=views.stock_view, name="stock_view"),
+    path(route="data/", view=views.stock_view_data, name="data"),
 ]
