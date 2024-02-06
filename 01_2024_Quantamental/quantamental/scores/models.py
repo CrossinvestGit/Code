@@ -3,6 +3,29 @@ from django.db import models
 
 # Create your models here.
 
+class Id(models.Model):
+    code = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
+    isin = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.code
+    
+
+class Sector(models.Model):
+    code = models.OneToOneField(Id, null=True, on_delete=models.CASCADE)
+    sector = models.CharField(max_length=200, null=True)
+    industry = models.CharField(max_length=200, null=True)
+    gicSector = models.CharField(max_length=200, null=True)
+    gicGroup = models.CharField(max_length=200, null=True)
+    gicIndustry = models.CharField(max_length=200, null=True)
+    gicSubIndustry = models.CharField(max_length=200, null=True)
+
+    def __str__(self):
+        return self.code
+
+
+
 
 class Customer(models.Model):
     user = models.OneToOneField(User, null=True, blank=True, on_delete=models.CASCADE)
