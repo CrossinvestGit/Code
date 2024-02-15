@@ -21,6 +21,17 @@
             {% include 'table.html' with data_url=data_url %}
         </div>
     </div>
+
+    <!-- Adding a table to test git -->
+    <div class="row scores justify-content-center">
+        <div class="col-12">
+            <!-- Data -->
+            {% url 'scores:data' as data_url %}
+            <!-- Table -->
+            {% include 'table.html' with data_url=data_url %}
+        </div>
+    </div>
+
 </div>
 {% endblock content %}
 
