@@ -2,8 +2,8 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const extractFieldName = (str) => str.split('__')[str.split('__').length - 1];
 
 const populateHtmlTable = async (table, tableIdCounter) => {
-    const url = table.dataset.url;
     try {
+        const url = table.dataset.url;
         const response = await axios.get(url);
         table.id += tableIdCounter;
 
@@ -21,50 +21,54 @@ const populateHtmlTable = async (table, tableIdCounter) => {
 
         return table;
     } catch (error) {
-        console.error(`Error populating table: ${error}`);
+        console.error(`Error populating html table: ${error}`);
     }
 };
 
 const initializeDataTable = (table) => {
-    $(table).DataTable({
-        stateSave: true,
-        select: true,
-        pagingType: 'first_last_numbers',
-        dom: 'PBfrtip',
-        responsive: true,
-        colReorder: true,
-        keys: false,
-        searchPanes: {
-            cascadePanes: true,
-            initCollapsed: true,
-        },
-        buttons: [
-            { extend: 'createState' },
-            { extend: 'savedStates' },
-            { extend: 'colvis', text: 'Column Visibility' },
-            { extend: 'copy' },
-            { extend: 'csv' },
-            { extend: 'excel' },
-            { extend: 'pdf', orientation: 'landscape' },
-            { extend: 'print' },
-        ],
-        initComplete: function () {
-            this.api()
-                .columns()
-                .every(function () {
-                    let column = this;
-                    let title = column.footer().textContent;
-                    let input = document.createElement('input');
-                    input.placeholder = title;
-                    column.footer().replaceChildren(input);
-                    input.addEventListener('input', () => {
-                        if (column.search() !== input.value) {
-                            column.search(input.value).draw();
-                        }
+    try {
+        $(table).DataTable({
+            stateSave: true,
+            select: true,
+            pagingType: 'first_last_numbers',
+            dom: 'PBfrtip',
+            responsive: true,
+            colReorder: true,
+            keys: false,
+            searchPanes: {
+                cascadePanes: true,
+                initCollapsed: true,
+            },
+            buttons: [
+                { extend: 'createState' },
+                { extend: 'savedStates' },
+                { extend: 'colvis', text: 'Column Visibility' },
+                { extend: 'copy' },
+                { extend: 'csv' },
+                { extend: 'excel' },
+                { extend: 'pdf', orientation: 'landscape' },
+                { extend: 'print' },
+            ],
+            initComplete: function () {
+                this.api()
+                    .columns()
+                    .every(function () {
+                        let column = this;
+                        let title = column.footer().textContent;
+                        let input = document.createElement('input');
+                        input.placeholder = title;
+                        column.footer().replaceChildren(input);
+                        input.addEventListener('input', () => {
+                            if (column.search() !== input.value) {
+                                column.search(input.value).draw();
+                            }
+                        });
                     });
-                });
-        }
-    });
+            }
+        });
+    } catch (error) {
+        console.error(`Error initializing DataTable: ${error}`);
+    }
 };
 
 // Does tables one after the other
