@@ -94,3 +94,34 @@ const initializeTables = async () => {
 };
 
 initializeTables();
+
+
+
+// TODO: Create a class for the tables
+// class Table {
+//     constructor(element, id) {
+//         this.element = element;
+//         this.id = id;
+//     }
+
+//     async populate() {
+//         // Code to populate the table
+//     }
+
+//     initialize() {
+//         // Code to initialize a basic DataTable
+//     }
+// }
+
+// class EditableTable extends Table {
+//     initialize() {
+//         // Code to initialize a DataTable with editing features
+//     }
+// }
+
+// // Usage:
+// const readOnlyTable = new Table(document.querySelector('#readonly-table'), 1);
+// readOnlyTable.populate().then(() => readOnlyTable.initialize());
+
+// const editableTable = new EditableTable(document.querySelector('#editable-table'), 2);
+// editableTable.populate().then(() => editableTable.initialize());
