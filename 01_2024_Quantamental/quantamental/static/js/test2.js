@@ -1,65 +1,69 @@
 // Get all table elements with class .table-general
-const tables = document.querySelectorAll('.table-general');
 const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
+const extractFieldName = (str) => str.split('__')[str.split('__').length - 1];
 
-// Iterate over each table
-tables.forEach(table => {
-    // Get the URL from the data attribute
+const tables = document.querySelectorAll('.table-general');
+
+// TODO: Wrap this in function
+for (const table of tables) {
     const url = table.dataset.url;
-
-    // Make AJAX request using Axios
     axios.get(url)
         .then(response => {
-            // Handle successful response
             let data = response.data;
             let tableHeaders = Object.keys(data[0]);
             let tableHeadersHTML = '';
             let tableBodyHTML = '';
 
-            // Generate table headers dynamically
-            tableHeaders.forEach(header => {
-                capHeader = capitalize(header);
+            for (const header of tableHeaders) {
+                const extractHeader = extractFieldName(header);
+                const capHeader = capitalize(extractHeader);
                 tableHeadersHTML += `<th>${capHeader}</th>`;
-            });
+            }
 
             table.querySelector('.table-headers').innerHTML = tableHeadersHTML;
-            table.querySelector('.table-footer').innerHTML = tableHeadersHTML; // Add footer headers
+            table.querySelector('.table-footer').innerHTML = tableHeadersHTML;
 
-            // Generate table rows dynamically
-            data.forEach(item => {
+            for (const item of data) {
                 let rowHTML = '';
-                tableHeaders.forEach(header => {
+                for (const header of tableHeaders) {
                     rowHTML += `<td>${item[header]}</td>`;
-                });
+                }
                 tableBodyHTML += `<tr>${rowHTML}</tr>`;
-            });
+            }
             table.querySelector('.table-body').innerHTML = tableBodyHTML;
 
-            // After dynamically generating the table, initialize DataTable
+
             $(table).DataTable({
+                stateSave: true,
                 select: true,
-                responsive: true,
-                searchPanes: {
-                    show: true,
-                    cascadePanes: true,
-                    threshold: 1,
-                    initCollapsed: true
-                },
+                pagingType: 'first_last_numbers',
                 dom: 'PBfrtip',
-                pagingType: 'full_numbers',
+                responsive: true,
+                colReorder: true,
+                keys: false,
+                searchPanes: {
+                    cascadePanes: true,
+                    initCollapsed: true,
+                },
+                buttons: [
+                    { extend: 'createState' },
+                    { extend: 'savedStates' },
+                    { extend: 'colvis', text: 'Column Visibility' },
+                    { extend: 'copy' },
+                    { extend: 'csv' },
+                    { extend: 'excel' },
+                    { extend: 'pdf', orientation: 'landscape' },
+                    { extend: 'print' },
+                ],
                 initComplete: function () {
                     this.api()
                         .columns()
                         .every(function () {
                             let column = this;
                             let title = column.footer().textContent;
-
-                            // Create input element
                             let input = document.createElement('input');
                             input.placeholder = title;
                             column.footer().replaceChildren(input);
-
-                            // Event listener for user input
                             input.addEventListener('input', () => {
                                 if (column.search() !== input.value) {
                                     column.search(input.value).draw();
@@ -70,7 +74,9 @@ tables.forEach(table => {
             });
         })
         .catch(error => {
-            // Handle errors
             console.error(error);
         });
-});
+};
+
+
+

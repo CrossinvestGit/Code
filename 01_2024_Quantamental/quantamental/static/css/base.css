@@ -33,7 +33,7 @@ body {
     width: 100%;
     overflow: hidden;
     transition: all 0.35s ease-in-out;
-    background-color: #fafbfe;
+    background-color: white;
     display: flex;
 }
 
@@ -155,6 +155,9 @@ a.sidebar-link:hover {
     width: 100%;
     /* You may need to adjust this depending on your layout */
 }
+
+
+
 
 /* bg-transparent p-0 border-0 text-white */
 /* adu */

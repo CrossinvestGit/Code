@@ -1,3 +1,5 @@
+import json
+
 from django import forms
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.forms import UserCreationForm
@@ -6,6 +8,7 @@ from django.contrib.auth.models import User
 from django.http import JsonResponse
 from django.shortcuts import render
 from django.urls import reverse_lazy
+from django.views.decorators.csrf import csrf_exempt
 from django.views.generic import (
     CreateView,
     DeleteView,
@@ -16,6 +19,21 @@ from django.views.generic import (
 
 from . import models
 from .forms import UserRegisterForm
+
+
+@login_required
+def stock_view_data(request):
+    default_columns = ['code__code','code__isin','code__name', 'sector', 'industry', 'gicSector', 'gicGroup', 'gicIndustry', 'gicSubIndustry']
+    data = list(models.Sector.objects.values(*default_columns))
+    return JsonResponse(data, safe=False)  
+
+
+@login_required
+def stock_view(request):
+    return render(
+        request=request,
+        template_name="scores/stock_view.html"
+    )
 
 
 # VIEWS:
@@ -38,15 +56,9 @@ def test_view(request):
     )
 
 # @login_required
-def stock_view(request):
-    return render(
-        request=request,
-        template_name="scores/stock_view.html"
-    )
 
-def stock_view_data(request):
-    data = list(models.Product.objects.values())  # Retrieve data from your model
-    return JsonResponse(data, safe=False)  # Return JSON response
+
+
 
     
 # FORMS:

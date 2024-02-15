@@ -1,9 +1,11 @@
+# Create your models here.
+import csv
+
 from django.contrib.auth.models import User
 from django.db import models
 
-# Create your models here.
 
-class Id(models.Model):
+class Identification(models.Model):
     code = models.CharField(max_length=200, null=True)
     name = models.CharField(max_length=200, null=True)
     isin = models.CharField(max_length=200, null=True)
@@ -13,7 +15,7 @@ class Id(models.Model):
     
 
 class Sector(models.Model):
-    code = models.OneToOneField(Id, null=True, on_delete=models.CASCADE)
+    code = models.ForeignKey(Identification, null=True, on_delete=models.CASCADE)
     sector = models.CharField(max_length=200, null=True)
     industry = models.CharField(max_length=200, null=True)
     gicSector = models.CharField(max_length=200, null=True)
@@ -22,7 +24,7 @@ class Sector(models.Model):
     gicSubIndustry = models.CharField(max_length=200, null=True)
 
     def __str__(self):
-        return self.code
+        return self.code.code
 
 
 
