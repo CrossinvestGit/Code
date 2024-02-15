@@ -28,11 +28,21 @@ def stock_view_data(request):
     return JsonResponse(data, safe=False)  
 
 
+
+def stock_view_data_2(request):
+    default_columns = ['code','isin','name']
+    data = list(models.Identification.objects.values(*default_columns))
+    return JsonResponse(data, safe=False)  
+
+
 @login_required
 def stock_view(request):
+    context = {"view_name": "stock"}
+    
     return render(
         request=request,
-        template_name="scores/stock_view.html"
+        template_name="scores/stock_view.html",
+        context=context,
     )
 
 

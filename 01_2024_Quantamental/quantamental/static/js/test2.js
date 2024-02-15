@@ -3,12 +3,16 @@ const capitalize = (str) => str.charAt(0).toUpperCase() + str.slice(1);
 const extractFieldName = (str) => str.split('__')[str.split('__').length - 1];
 
 const tables = document.querySelectorAll('.table-general');
+let tableIdCounter = 1;
 
 // TODO: Wrap this in function
 for (const table of tables) {
     const url = table.dataset.url;
     axios.get(url)
         .then(response => {
+            table.id += tableIdCounter;
+            tableIdCounter++;  // Increment counter
+
             let data = response.data;
             let tableHeaders = Object.keys(data[0]);
             let tableHeadersHTML = '';
