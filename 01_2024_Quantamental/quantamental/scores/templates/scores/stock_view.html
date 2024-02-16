@@ -14,13 +14,24 @@
     </div>
 
     <div class="row scores justify-content-center">
-        <div class="col-12">
+        <div class="col">
             <!-- Data -->
             {% url 'scores:data' as data_url %}
             <!-- Table -->
-            {% include 'table.html' with data_url=data_url %}
+            {% include 'table.html' with data_url=data_url view_name=view_name %}
         </div>
     </div>
+
+
+    <div class="row scores justify-content-center">
+        <div class="col">
+            <!-- Data -->
+            {% url 'scores:data2' as data_url %}
+            <!-- Table -->
+            {% include 'table.html' with data_url=data_url view_name=view_name %}
+        </div>
+    </div>
+
 
 
 </div>
