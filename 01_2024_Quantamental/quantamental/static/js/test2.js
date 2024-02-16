@@ -125,3 +125,6 @@ initializeTables();
 
 // const editableTable = new EditableTable(document.querySelector('#editable-table'), 2);
 // editableTable.populate().then(() => editableTable.initialize());
+
+// TODO: Rewrite using jQuery except for the axios request
+// TODO: Minify the code
