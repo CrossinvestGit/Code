@@ -1,5 +1,6 @@
 .container-fluid {
     border: 2px solid red;
+    padding: 10px;
 }
 
 .col,
@@ -15,9 +16,10 @@
 .col-10,
 .col-11,
 .col-12 {
-    border: 2px solid green;
     display: inline-block;
 }
+
+
 
 
 div.dataTables_wrapper div.dataTables_length select {

@@ -22,38 +22,50 @@ from .forms import UserRegisterForm
 
 
 @login_required
-def stock_view_data(request):
-    default_columns = ['code__code','code__isin','code__name', 'sector', 'industry', 'gicSector', 'gicGroup', 'gicIndustry', 'gicSubIndustry']
-    data = list(models.Sector.objects.values(*default_columns))
-    return JsonResponse(data, safe=False)  
-
-
-
-def stock_view_data_2(request):
-    default_columns = ['code','isin','name']
-    data = list(models.Identification.objects.values(*default_columns))
-    return JsonResponse(data, safe=False)  
-
-
-@login_required
-def stock_view(request):
-    context = {"view_name": "stock"}
-    
+def table_view(request):
+    context = {"view_name": "table"}
     return render(
         request=request,
-        template_name="scores/stock_view.html",
+        template_name="scores/table_view.html",
         context=context,
     )
 
 
-# VIEWS:
+@login_required
+def table_view_data(request):
+    default_columns = [
+        "code__code",
+        "code__isin",
+        "code__name",
+        "sector",
+        "industry",
+        "gicSector",
+        "gicGroup",
+        "gicIndustry",
+        "gicSubIndustry",
+    ]
+    data = list(models.Sector.objects.values(*default_columns))
+    return JsonResponse(data, safe=False)
+
+
+def table_view_data_2(request):
+    default_columns = ["code", "isin", "name"]
+    data = list(models.Identification.objects.values(*default_columns))
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+def pf_view(request):
+    return render(request=request, template_name="scores/pf_view.html")
+
+
 @login_required
 def scores_view(request):
     return render(request=request, template_name="scores/scores_view.html")
 
 
 @login_required
-def test_view(request):
+def vis_view(request):
     context = {
         "products": models.Product.objects.all(),
         "headers": ["Product", "Category", "Price"],
@@ -61,16 +73,14 @@ def test_view(request):
     }
     return render(
         request=request,
-        template_name="scores/test_view.html",
+        template_name="scores/vis_view.html",
         context=context,
     )
+
 
 # @login_required
 
 
-
-
-    
 # FORMS:
 class SignUpView(CreateView):
     form_class = UserRegisterForm
