@@ -268,12 +268,12 @@ class LineChart {
 
         // Rebase the grouped data
         if (vis.rebase) {
-            vis.dataGrouped.forEach((value, key) => { // Iterate over the grouped data
+            for (const [key, value] of vis.dataGrouped) { // Iterate over the grouped data
                 const closingPrices = value; // Get the closing prices
                 const adjustmentFactor = 100 / closingPrices[0].Close; // Calculate the adjustment factor
                 const adjustedPrices = closingPrices.map(entry => ({ ...entry, Close: entry.Close * adjustmentFactor })); // Adjust the closing prices
                 vis.dataGrouped.set(key, adjustedPrices); // Update the grouped data
-            });
+            }
 
         }
 
@@ -313,10 +313,10 @@ class LineChart {
             .scale(vis.y); // Set the scale for the axis
         vis.yAxisGroup.transition(vis.t).call(vis.yAxisCall); // Transition the y-axis
 
-        vis.dataGrouped.forEach((value, key) => { // Iterate over the grouped data
+        for (const [key, value] of vis.dataGrouped) {
             const linePath = vis.canvas.select(".line-" + key); // Select the line path
             linePath.datum(value) // Set the data for the line
                 .attr('d', vis.line); // Set the path data
-        });
+        }
     }
 }
