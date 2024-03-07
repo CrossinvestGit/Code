@@ -1,0 +1,117 @@
+{% extends "base.html" %}
+{% load static %}
+{% block head %}
+<!-- CSS Files -->
+<link rel="stylesheet" href="{% static 'scores/css/singleStock.css' %}">
+{% endblock head %}
+
+
+{% block content %}
+
+
+
+
+
+
+<div class="container-fluid">
+    <!-- Control panel for content -->
+    <div class="row">
+        <div class="col">
+            <h2>Control Panel</h2>
+            <h3>Please select a stock and a client portfolio!</h3>
+            <select class="form-select" aria-label="Default select example">
+                <option value="1">AMD</option>
+                <option value="2">Apple</option>
+                <option value="3">Broadcomm</option>
+                <option value="3">IBM</option>
+                <option value="3">NVIDIA</option>
+                <option value="3">Qualcomm</option>
+                <option value="3">Texas Instrument</option>
+            </select>
+            <select class="form-select" aria-label="Default select example">
+
+                <option value="1">MSCI World</option>
+                <option value="2">Nasdaq 100</option>
+            </select>
+        </div>
+    </div>
+
+
+
+    <!-- Qualitative content -->
+    <div class="row">
+        <div class="col">
+            <h2>Company description</h2>
+        </div>
+        <div class="col">
+            Table with qualitative data
+        </div>
+    </div>
+
+    <!-- Sankey Chart -->
+    <div class="row">
+        <div class="col">
+            Sankey Chart
+        </div>
+    </div>
+
+    <!-- Qualitative content -->
+    <div class="row">
+        <div class="col">
+            Performance Line Chart
+        </div>
+        <div class="col">
+            Performance Bar Chart
+        </div>
+    </div>
+
+    <!-- Multiples -->
+    <div class="row">
+        <div class="col">
+            Multiples Bar Chart
+        </div>
+        <div class="col">
+            Spider Chart
+        </div>
+    </div>
+
+
+
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+{% endblock content %}
+
+
+
+
+
+{% block jsextra %}
+<script>
+    <!-- var csvUrl = "{% static 'data/revenues.csv' %}";
+    var jsonUrl2 = "{% static 'data/coins.json' %}";
+    var indices = "{% static 'data/indices.csv' %}"; -->
+</script>
+<script type="text/javascript" src="{% static 'js/line_brushed.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/BarChart.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/LineChart.js' %}"></script>
+<script type="text/javascript" src="{% static 'scores/js/main_vis.js' %}"></script>
+{% endblock jsextra %}

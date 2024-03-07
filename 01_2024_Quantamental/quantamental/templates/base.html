@@ -52,14 +52,6 @@
     <!-------- Custom CSS -------->
     <link rel="stylesheet" href="{% static 'css/base.css' %}">
 
-
-
-
-
-
-
-
-
     {% block head %}
     {% endblock head %}
 </head>
@@ -91,7 +83,7 @@
                     </a>
                 </li>
                 <li class="sidebar-item">
-                    <a href="{% url 'scores:vis_view' %}" class="sidebar-link">
+                    <a href="{% url 'scores:singleStock_view' %}" class="sidebar-link">
                         <i class="bi bi-bar-chart-line"></i>
                         <span>Single Stock</span>
                     </a>

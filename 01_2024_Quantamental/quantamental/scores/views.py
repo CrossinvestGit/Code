@@ -65,6 +65,11 @@ def scores_view(request):
 
 
 @login_required
+def singleStock_view(request):
+    return render(request=request, template_name="scores/singleStock_view.html")
+
+
+@login_required
 def vis_view(request):
     context = {
         "products": models.Product.objects.all(),
