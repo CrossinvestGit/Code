@@ -105,33 +105,32 @@ class LineChart {
 
         vis.y = d3.scaleLinear() // Create a linear scale for the y-axis
             .range([vis.HEIGHT, 0]) // Set the range of the scale
-            .domain([-100, d3.max(vis.data, d => d[vis.ydata])]); // Set the domain of the scale based on the y-axis data
+            .domain([0, d3.max(vis.data, d => d[vis.ydata])]); // Set the domain of the scale based on the y-axis data
 
         vis.xAxisCall = d3.axisBottom(vis.x) // Create the x-axis
             .scale(vis.x); // Set the scale for the axis
 
-        const formatSi = d3.format(".0s"); // Format function for axis labels
-        vis.formatter = (x) => { // Custom formatter function
-            if (x > 1000000) {
-                const formatAbbreviation = (x) => { // Function to abbreviate large numbers
-                    const s = formatSi(x);
-                    switch (s[s.length - 1]) {
-                        case "G": return s.slice(0, -1) + "B";
-                        case "M": return s.slice(0, -1) + "M";
-                        case "k": return s.slice(0, -1) + "K";
-                    }
-                    return s;
+        // const formatSi = d3.format(".0s"); // Format function for axis labels
+        vis.formatter = (x) => {
+            // if (x >= 1000000) {
+            const formatAbbreviation = (x) => {
+                if (x >= 1000000000) {
+                    return (x / 1000000000).toFixed(1) + "B";
+                } else if (x >= 1000000) {
+                    return (x / 1000000).toFixed(1) + "M";
+                } else if (x >= 1000) {
+                    return (x / 1000).toFixed(1) + "K";
                 }
-                return formatAbbreviation(x);
-
-            } else {
                 return x;
-            }
-        }
+            };
+            return formatAbbreviation(x);
+            // } else {
+            //     return x;
+            // }
+        };
 
-        vis.tickCount = Math.max(5, Math.ceil((vis.y.domain()[1] - vis.y.domain()[0]) / 150)); // Calculate the number of ticks for the y-axis
         vis.yAxisCall = d3.axisLeft(vis.y) // Create the y-axis
-            .ticks(vis.tickCount) // Set the number of ticks
+            .ticks(8) // Set the number of ticks
             .tickFormat(d => vis.formatter(d)) // Set the tick format
             .scale(vis.y); // Set the scale for the axis
 
@@ -307,9 +306,9 @@ class LineChart {
             .attr("text-anchor", "end") // Set the text-anchor attribute
             .attr("transform", "rotate(-40)"); // Set the rotation transform
 
-        vis.tickCount = Math.max(5, Math.ceil((vis.y.domain()[1] - vis.y.domain()[0]) / 150)); // Calculate the number of ticks for the y-axis
+        // vis.tickCount = Math.max(5, Math.ceil((vis.y.domain()[1] - vis.y.domain()[0]) / 150)); // Calculate the number of ticks for the y-axis
         vis.yAxisCall = d3.axisLeft(vis.y) // Create the y-axis
-            .ticks(vis.tickCount) // Set the number of ticks
+            .ticks(8) // Set the number of ticks
             .tickFormat(d => vis.formatter(d)) // Set the tick format
             .scale(vis.y); // Set the scale for the axis
         vis.yAxisGroup.transition(vis.t).call(vis.yAxisCall); // Transition the y-axis
