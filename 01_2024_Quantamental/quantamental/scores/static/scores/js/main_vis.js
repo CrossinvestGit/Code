@@ -51,7 +51,6 @@ d3.dsv(";", indices).then(data => { // Read the data from a CSV file
 
 })
 
-
 function updateCharts() {
     barChart.manageData()
 }
