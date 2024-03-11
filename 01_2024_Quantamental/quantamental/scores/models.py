@@ -12,7 +12,7 @@ class Identification(models.Model):
 
     def __str__(self):
         return self.code
-    
+
 
 class Sector(models.Model):
     code = models.ForeignKey(Identification, null=True, on_delete=models.CASCADE)
@@ -27,6 +27,18 @@ class Sector(models.Model):
         return self.code.code
 
 
+class Qualdata(models.Model):
+    ticker = models.CharField(max_length=200, null=True)
+    name = models.CharField(max_length=200, null=True)
+    description = models.CharField(max_length=500, null=True)
+    exchange = models.CharField(max_length=200, null=True)
+    sector = models.CharField(max_length=200, null=True)
+    beta = models.FloatField(null=True)
+    mcap = models.FloatField(null=True)
+    dividendyield = models.FloatField(null=True)
+
+    def __str__(self):
+        return self.ticker
 
 
 class Customer(models.Model):
