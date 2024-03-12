@@ -67,22 +67,39 @@ def scores_view(request):
 
 @login_required
 def single_stock_view(request):
-    return render(request=request, template_name="scores/single_stock_view.html")
+    context = {"view_name": "single_stock"}
+    return render(
+        request=request,
+        template_name="scores/single_stock_view.html",
+        context=context,
+    )
 
 
 @login_required
-def single_stock_view_data(request):
+def single_stock_view_data_1(request):
+    default_columns = [
+        "description",
+    ]
+    ticker = request.GET.get("ticker")
+    print(ticker)
+    data = list(models.Qualdata.objects.filter(ticker=ticker).values(*default_columns))
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+def single_stock_view_data_2(request):
     default_columns = [
         "ticker",
         "name",
-        "description",
         "exchange",
         "sector",
         "beta",
         "mcap",
-        "dividendyield",
+        "dividendYield",
     ]
-    data = list(models.Qualdata.objects.values(*default_columns))
+    ticker = request.GET.get("ticker")
+    print(ticker)
+    data = list(models.Qualdata.objects.filter(ticker=ticker).values(*default_columns))
     return JsonResponse(data, safe=False)
 
 

@@ -35,7 +35,7 @@ class Qualdata(models.Model):
     sector = models.CharField(max_length=200, null=True)
     beta = models.FloatField(null=True)
     mcap = models.FloatField(null=True)
-    dividendyield = models.FloatField(null=True)
+    dividendYield = models.FloatField(null=True)
 
     def __str__(self):
         return self.ticker
