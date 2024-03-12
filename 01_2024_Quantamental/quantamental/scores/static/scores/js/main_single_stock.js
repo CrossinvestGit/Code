@@ -5,12 +5,12 @@ let horTable
 let sankeyChart
 
 // Sankey Chart
-// d3.json(sankeyData).then(data => { // Fetches data from the specified JSON file
-//     console.log(data)
+d3.json(sankeyData).then(data => { // Fetches data from the specified JSON file
+    console.log(data)
 
-//     sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data, _dimension = { width: 928, height: 450 });
+    sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data, _dimension = { width: 928, height: 450 });
 
-// })
+})
 
 
 
