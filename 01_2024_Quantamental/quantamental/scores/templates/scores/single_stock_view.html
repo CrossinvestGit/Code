@@ -123,6 +123,7 @@
     const output1 = "{% url 'scores:single_stock_view_data_1' %}";
     const output2 = "{% url 'scores:single_stock_view_data_2' %}";
     const sankeyData = "{% static 'data/sankeyApple.json' %}";
+    const sankeyTest = "{% static 'data/sankey.json' %}";
 </script>
 
 <!-- <script>
@@ -134,7 +135,8 @@
 <script type="text/javascript" src="{% static 'js/BarChart.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/LineChart.js' %}"></script>
 <script type="text/javascript" src="{% static 'js/HorizontalTable.js' %}"></script>
-<script type="text/javascript" src="{% static 'js/Sankey.js' %}"></script>
+<!-- <script type="text/javascript" src="{% static 'js/Sankey.js' %}"></script> -->
+<script type="text/javascript" src="{% static 'js/SankeyChart.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'scores/js/main_vis.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'scores/js/main_single_stock.js' %}"></script>
 {% endblock jsextra %}
