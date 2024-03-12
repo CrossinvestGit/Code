@@ -3,19 +3,6 @@ let barChart
 let lineChart
 let horTable
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 const updateSingleStockView = () => {
     axios.get(output1, {
         params: {
