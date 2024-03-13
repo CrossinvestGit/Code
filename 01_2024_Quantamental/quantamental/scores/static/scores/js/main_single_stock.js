@@ -4,15 +4,36 @@ let lineChart
 let horTable
 let sankeyChart
 
-// Sankey Chart
-d3.json(sankeyData).then(data => { // Fetches data from the specified JSON file
-    console.log(data)
-
-    sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data, _dimension = { width: 928, height: 450 });
-
+// Sankey Chart Initialization
+d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
+    let ticker = $('.form-select').val()
+    console.log(ticker)
+    sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 928, height: 450 });
 })
 
+axios.get(output1, {
+    params: {
+        ticker: $('.form-select').val() // Additional data like ticker
+    }
+}).then(response => {
+    const data = response.data;
+    horTable = new HorizontalTable(_tableid = "miau1", _data = data);
+}).catch(error => {
+    console.error('Error fetching data:', error);
+});
 
+
+// Qualitative Table
+axios.get(output2, {
+    params: {
+        ticker: $('.form-select').val() // Additional data like ticker
+    }
+}).then(response => {
+    const data = response.data;
+    horTable = new HorizontalTable(_tableid = "miau2", _data = data);
+}).catch(error => {
+    console.error('Error fetching data:', error);
+});
 
 const updateSingleStockView = () => {
 
@@ -29,7 +50,6 @@ const updateSingleStockView = () => {
     });
 
 
-
     // Qualitative Table
     axios.get(output2, {
         params: {
@@ -43,16 +63,11 @@ const updateSingleStockView = () => {
     });
 
 
-
-
-
-    d3.json(sankeyTest).then(data => { // Fetches data from the specified JSON file
-        console.log(data)
-
-        sankeyChart.manageData(data)
-
+    // Sankey Update
+    d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
+        let ticker = $('.form-select').val()
+        sankeyChart.manageData(data[ticker])
     })
-
 
 
 }
