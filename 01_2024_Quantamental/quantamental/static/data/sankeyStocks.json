@@ -290,7 +290,7 @@
             {
                 "source": "Operating Profit",
                 "target": "Net Income",
-                "value": 18378
+                "value": 16451
             },
             {
                 "source": "Tax and Analyst Adjustments",
@@ -599,7 +599,7 @@
             {
                 "source": "Operating Profit",
                 "target": "Net Income",
-                "value": 8355
+                "value": 5577
             },
             {
                 "source": "Tax and Analyst Adjustments",
@@ -688,32 +688,32 @@
             {
                 "source": "Revenue",
                 "target": "Cost of Revenue",
-                "value": 18376
+                "value": 16137
             },
             {
                 "source": "Revenue",
                 "target": "Gross Profit",
-                "value": 24582
+                "value": 20155
             },
             {
                 "source": "Gross Profit",
                 "target": "Operating Profit",
-                "value": 14461
+                "value": 7962
             },
             {
                 "source": "Gross Profit",
                 "target": "Operating Expenses",
-                "value": 10121
+                "value": 12193
             },
             {
                 "source": "Operating Profit",
                 "target": "Net Income",
-                "value": 13337
+                "value": 7962
             },
             {
                 "source": "Tax and Analyst Adjustments",
                 "target": "Net Income",
-                "value": 1124
+                "value": 2055
             }
         ]
     },
