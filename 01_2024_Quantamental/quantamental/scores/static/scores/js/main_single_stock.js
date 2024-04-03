@@ -11,6 +11,7 @@ d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON fil
     sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 928, height: 450 });
 })
 
+// Qualitative Table
 axios.get(output1, {
     params: {
         ticker: $('.form-select').val() // Additional data like ticker
@@ -21,7 +22,6 @@ axios.get(output1, {
 }).catch(error => {
     console.error('Error fetching data:', error);
 });
-
 
 // Qualitative Table
 axios.get(output2, {
@@ -35,7 +35,12 @@ axios.get(output2, {
     console.error('Error fetching data:', error);
 });
 
+
+
+
+
 const updateSingleStockView = () => {
+
 
     // Description
     axios.get(output1, {
@@ -75,8 +80,6 @@ const updateSingleStockView = () => {
 // Event listeners
 $('.form-select').on("change", updateSingleStockView)
 
-
-// const selectedStock = $('.form-select').val();
 
 
 
