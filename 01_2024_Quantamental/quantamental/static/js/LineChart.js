@@ -27,8 +27,6 @@ class LineChart {
         vis.HEIGHT = vis.dimension.height - vis.MARGIN.TOP - vis.MARGIN.BOTTOM; // Height of the canvas
 
         vis.dataGrouped = d3.group(vis.data, d => d[vis.group]); // Group the data based on the grouping variable
-        vis.dataLabel = Array.from(vis.dataGrouped.keys()); // Get the unique labels from the grouped data
-
 
         vis.earliestDate = new Date(Math.min(...vis.data.map(entry => entry.Date)));
         vis.latestDate = new Date(Math.max(...vis.data.map(entry => entry.Date)));
@@ -51,7 +49,7 @@ class LineChart {
         vis.__YTD = [vis.ytdStart, vis.latestDate]
 
         vis.formatTime = d3.timeFormat("%d/%m/%Y")
-        $("#date-slider2").slider({
+        $("#date-slider1").slider({
             range: true,
             min: vis.earliestDate.getTime(),
             max: vis.latestDate.getTime(),
@@ -62,9 +60,9 @@ class LineChart {
             ],
             slide: (event, ui) => {
                 let filterEvent = "slide";
-                $("#dateLabel3").text(vis.formatTime(new Date(ui.values[0])))
-                $("#dateLabel4").text(vis.formatTime(new Date(ui.values[1])))
-                dateRange = $("#date-slider2").slider("values"); // Get the values of the date slider
+                $("#dateLabel1").text(vis.formatTime(new Date(ui.values[0])))
+                $("#dateLabel2").text(vis.formatTime(new Date(ui.values[1])))
+                dateRange = $("#date-slider1").slider("values"); // Get the values of the date slider
 
                 lineChart.manageData(dateRange, filterEvent)
             }
@@ -110,9 +108,7 @@ class LineChart {
         vis.xAxisCall = d3.axisBottom(vis.x) // Create the x-axis
             .scale(vis.x); // Set the scale for the axis
 
-        // const formatSi = d3.format(".0s"); // Format function for axis labels
         vis.formatter = (x) => {
-            // if (x >= 1000000) {
             const formatAbbreviation = (x) => {
                 if (x >= 1000000000) {
                     return (x / 1000000000).toFixed(1) + "B";
@@ -124,9 +120,6 @@ class LineChart {
                 return x;
             };
             return formatAbbreviation(x);
-            // } else {
-            //     return x;
-            // }
         };
 
         vis.yAxisCall = d3.axisLeft(vis.y) // Create the y-axis
@@ -148,67 +141,14 @@ class LineChart {
             .x(d => vis.x(d.Date)) // Set the x-coordinate of the line
             .y(d => vis.y(d.Close)); // Set the y-coordinate of the line
 
-        const colors = new Map(vis.dataLabel.map((label, i) => [label, d3.schemeCategory10[i]])); // Create a map of colors for each label
+        vis.maxDotsPerColumn = vis.legend["noCol"]; // Maximum number of dots per column in the legend
+        vis.columnWidth = vis.legend["widthCol"]; // Width of each column in the legend
 
-        const maxDotsPerColumn = vis.legend["noCol"]; // Maximum number of dots per column in the legend
-        const columnWidth = vis.legend["widthCol"]; // Width of each column in the legend
-
-        const legendOffsetY = -maxDotsPerColumn * (maxDotsPerColumn + 1) * 5; // Offset for the legend in the y-direction
-        const fontWeight = "bold"; // Font weight for the legend text
-        const dotRadius = 5; // Radius of the legend dots
-        const dotSpacing = 20; // Spacing between legend dots
-        const textOffsetX = 10; // Offset for the legend text in the x-direction
-        const legendOffsetX = (vis.WIDTH - (vis.dataLabel.length * columnWidth)) / 2; // Offset for the legend in the x-direction
-
-        let i = 0; // Counter variable
-        for (const [thisDataLabel, thisData] of vis.dataGrouped) { // Iterate over the grouped data
-            const linePath = vis.canvas.append("path") // Append a path element for the line
-                .datum(thisData) // Set the data for the line
-                .attr('d', vis.line) // Set the path data
-                .attr('class', 'line-' + thisDataLabel) // Set the class attribute
-                .style('stroke', colors.get(thisDataLabel)) // Set the stroke color
-                .style('stroke-width', 2) // Set the stroke width
-                .style("cursor", "pointer") // Set the cursor style
-                .style("fill", "none") // Set the fill style
-                .on("click", function () { // Add a click event listener
-                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
-                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
-                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
-                });
-
-            const column = Math.floor(i / maxDotsPerColumn); // Calculate the column index
-            const dotX = legendOffsetX + column * columnWidth; // Calculate the x-coordinate of the legend dot
-            const dotY = legendOffsetY + (i % maxDotsPerColumn) * dotSpacing; // Calculate the y-coordinate of the legend dot
-
-            const legendCircle = vis.canvas.append("circle") // Append a circle element for the legend dot
-                .attr("cx", dotX) // Set the cx attribute
-                .attr("cy", dotY) // Set the cy attribute
-                .attr("r", dotRadius) // Set the r attribute
-                .style("fill", colors.get(thisDataLabel)) // Set the fill color
-                .style("cursor", "pointer") // Set the cursor style
-                .on("click", function () { // Add a click event listener
-                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
-                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
-                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
-                });
-
-            const legendText = vis.canvas.append("text") // Append a text element for the legend text
-                .attr("class", "legend-text")
-                .attr("x", dotX + textOffsetX) // Set the x attribute
-                .attr("y", dotY + 1) // Set the y attribute
-                .text(thisDataLabel) // Set the text content
-                .attr("text-anchor", "left") // Set the text-anchor attribute
-                .style("alignment-baseline", "middle") // Set the alignment-baseline style
-                .style("font-weight", fontWeight) // Set the font-weight style
-                .style("cursor", "pointer") // Set the cursor style
-                .on("click", function () { // Add a click event listener
-                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
-                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
-                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
-                });
-
-            i++; // Increment the counter
-        }
+        vis.legendOffsetY = -vis.maxDotsPerColumn * (vis.maxDotsPerColumn + 1) * 5; // Offset for the legend in the y-direction
+        vis.fontWeight = "bold"; // Font weight for the legend text
+        vis.dotRadius = 5; // Radius of the legend dots
+        vis.dotSpacing = 20; // Spacing between legend dots
+        vis.textOffsetX = 10; // Offset for the legend text in the x-direction
 
         const buttonFilterText = ["All", "10Y", "5Y", "3Y", "YTD"];
 
@@ -218,11 +158,11 @@ class LineChart {
             .append("text")
             .attr("class", "filter-text")
             .attr("x", (d, i) => vis.WIDTH - (i * 30))
-            .attr("y", legendOffsetY)
+            .attr("y", vis.legendOffsetY)
             .text(d => d)
             .attr("text-anchor", "left")
             .style("alignment-baseline", "middle")
-            .style("font-weight", fontWeight)
+            .style("font-weight", vis.fontWeight)
             .style("cursor", "pointer")
             .style("fill", "#cecece")
             .on("click", function () { // Add a click event listener
@@ -245,20 +185,19 @@ class LineChart {
                     .style("text-decoration-color", null); // Revert to default text-decoration-color
             });
 
-        let dateRange = $("#date-slider2").slider("values"); // Get the values of the date slider
+        let dateRange = $("#date-slider1").slider("values"); // Get the values of the date slider
 
         vis.manageData(dateRange); // Manage the data for the chart
     }
 
-    manageData(dateRange, filterEvent) {
+    manageData(dateRange = [new Date("2009-12-31"), new Date("2024-03-07")], filterEvent) {
         const vis = this;
-
         // Filter the data based on the date range or the selected range
         vis.dataFiltered = vis.data.filter(d => {
             if (filterEvent === "click") {
-                $("#dateLabel3").text(vis.formatTime(dateRange[0]))
-                $("#dateLabel4").text(vis.formatTime(dateRange[1]))
-                $("#date-slider2").slider("values", [dateRange[0], dateRange[1]]);
+                $("#dateLabel1").text(vis.formatTime(dateRange[0]))
+                $("#dateLabel2").text(vis.formatTime(dateRange[1]))
+                $("#date-slider1").slider("values", [dateRange[0], dateRange[1]]);
             }
             return ((d.Date >= dateRange[0]) && (d.Date <= dateRange[1]))
         })
@@ -313,10 +252,77 @@ class LineChart {
             .scale(vis.y); // Set the scale for the axis
         vis.yAxisGroup.transition(vis.t).call(vis.yAxisCall); // Transition the y-axis
 
-        vis.dataGrouped.forEach((value, key) => { // Iterate over the grouped data
+        // Remove all existing lines
+        vis.canvas.selectAll(".line").remove();
+        vis.canvas.selectAll(".legend-circle").remove();
+        vis.canvas.selectAll(".legend-text").remove();
+
+        vis.line = d3.line() // Create a line generator
+            .curve(d3.curveNatural) // Set the curve type
+            .x(d => vis.x(d.Date)) // Set the x-coordinate of the line
+            .y(d => vis.y(d.Close)); // Set the y-coordinate of the line
+
+        vis.dataLabel = Array.from(vis.dataGrouped.keys()); // Get the unique labels from the grouped data
+        vis.legendOffsetX = (vis.WIDTH - (vis.dataLabel.length * vis.columnWidth)) / 2; // Offset for the legend in the x-direction
+        vis.colors = new Map(vis.dataLabel.map((label, i) => [label, d3.schemeCategory10[i]])); // Create a map of colors for each label
+        console.log(vis.dataGrouped)
+        console.log(vis.colors)
+
+        let i = 0; // Counter variable
+        for (const [thisDataLabel, thisData] of vis.dataGrouped) { // Iterate over the grouped data
+            const linePath = vis.canvas.append("path") // Append a path element for the line
+                .datum(thisData) // Set the data for the line
+                .attr('d', vis.line) // Set the path data
+                .attr('class', 'line') // Set the class attribute
+                .style('stroke', vis.colors.get(thisDataLabel)) // Set the stroke color
+                .style('stroke-width', 2) // Set the stroke width
+                .style("cursor", "pointer") // Set the cursor style
+                .style("fill", "none") // Set the fill style
+                .on("click", function () { // Add a click event listener
+                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
+                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
+                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
+                });
+
+            const column = Math.floor(i / vis.maxDotsPerColumn); // Calculate the column index
+            const dotX = vis.legendOffsetX + column * vis.columnWidth; // Calculate the x-coordinate of the legend dot
+            const dotY = vis.legendOffsetY + (i % vis.maxDotsPerColumn) * vis.dotSpacing; // Calculate the y-coordinate of the legend dot
+
+            const legendCircle = vis.canvas.append("circle") // Append a circle element for the legend dot
+                .attr("class", "legend-circle")
+                .attr("cx", dotX) // Set the cx attribute
+                .attr("cy", dotY) // Set the cy attribute
+                .attr("r", vis.dotRadius) // Set the r attribute
+                .style("fill", vis.colors.get(thisDataLabel)) // Set the fill color
+                .style("cursor", "pointer") // Set the cursor style
+                .on("click", function () { // Add a click event listener
+                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
+                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
+                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
+                });
+
+            const legendText = vis.canvas.append("text") // Append a text element for the legend text
+                .attr("class", "legend-text")
+                .attr("x", dotX + vis.textOffsetX) // Set the x attribute
+                .attr("y", dotY + 1) // Set the y attribute
+                .text(thisDataLabel) // Set the text content
+                .attr("text-anchor", "left") // Set the text-anchor attribute
+                .style("alignment-baseline", "middle") // Set the alignment-baseline style
+                .style("font-weight", vis.fontWeight) // Set the font-weight style
+                .style("cursor", "pointer") // Set the cursor style
+                .on("click", function () { // Add a click event listener
+                    vis.toggleOpacity(linePath); // Toggle the opacity of the line
+                    vis.toggleOpacity(legendCircle); // Toggle the opacity of the legend circle
+                    vis.toggleOpacity(legendText); // Toggle the opacity of the legend text
+                });
+
+            i++; // Increment the counter
+        }
+
+        for (const [key, value] of vis.dataGrouped) {
             const linePath = vis.canvas.select(".line-" + key); // Select the line path
             linePath.datum(value) // Set the data for the line
                 .attr('d', vis.line); // Set the path data
-        });
+        }
     }
 }

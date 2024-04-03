@@ -7,7 +7,6 @@ let sankeyChart
 // Sankey Chart Initialization
 d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
     let ticker = $('.form-select').val()
-    console.log(ticker)
     sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 928, height: 450 });
 })
 
@@ -36,12 +35,25 @@ axios.get(output2, {
 });
 
 
+d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
+    const parseTime = d3.timeParse("%d.%m.%Y") // Create a time parser
 
+    for (const row of data) { // Iterate over the data rows
+        row.Close = Number(row.Close) // Convert the Close value to a number
+        row.Date = parseTime(row.Date) // Parse the Date value
+    }
+
+    let formSelectValue = $('.form-select').val();
+    let tickers = Array.isArray(formSelectValue) ? formSelectValue : [formSelectValue];
+    tickers.push("NVDA");  // Adding "NVDA" to the tickers array
+    let data0 = Object.values(data).filter(item => tickers.includes(item.Symbol));
+
+    lineChart = new LineChart(_parentElement = "#performance-chart-area", _data = data0, _xdata = "Date", _xlabel = "", _ydata = "Close", _ylabel = "USD", _group = "Symbol", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 }, _rebase = true);
+
+})
 
 
 const updateSingleStockView = () => {
-
-
     // Description
     axios.get(output1, {
         params: {
@@ -53,7 +65,6 @@ const updateSingleStockView = () => {
     }).catch(error => {
         console.error('Error fetching data:', error);
     });
-
 
     // Qualitative Table
     axios.get(output2, {
@@ -67,18 +78,38 @@ const updateSingleStockView = () => {
         console.error('Error fetching data:', error);
     });
 
-
     // Sankey Update
     d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
         let ticker = $('.form-select').val()
         sankeyChart.manageData(data[ticker])
     })
 
+    // Line Chart Update
+    d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
+        const parseTime = d3.timeParse("%d.%m.%Y") // Create a time parser
+        // const formatTime = d3.timeFormat("%d/%m/%Y")
 
+        for (const row of data) { // Iterate over the data rows
+            row.Close = Number(row.Close) // Convert the Close value to a number
+            row.Date = parseTime(row.Date) // Parse the Date value
+        }
+
+        let formSelectValue = $('.form-select').val();
+        let tickers = Array.isArray(formSelectValue) ? formSelectValue : [formSelectValue];
+        tickers.push("NVDA");  // Adding "NVDA" to the tickers array
+        let data1 = Object.values(data).filter(item => tickers.includes(item.Symbol));
+
+        lineChart.data = data1
+        lineChart.manageData()
+    })
 }
 
 // Event listeners
 $('.form-select').on("change", updateSingleStockView)
+
+
+
+
 
 
 
