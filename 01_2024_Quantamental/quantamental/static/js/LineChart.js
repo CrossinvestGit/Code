@@ -22,7 +22,7 @@ class LineChart {
 
     initVis() {
         const vis = this;
-        vis.MARGIN = { TOP: 50, RIGHT: 5, BOTTOM: 50, LEFT: 100 }; // Margin where the axes, labels, and legend will be placed
+        vis.MARGIN = { TOP: 50, RIGHT: 5, BOTTOM: 50, LEFT: 80 }; // Margin where the axes, labels, and legend will be placed
         vis.WIDTH = vis.dimension.width - vis.MARGIN.LEFT - vis.MARGIN.RIGHT; // Width of the canvas
         vis.HEIGHT = vis.dimension.height - vis.MARGIN.TOP - vis.MARGIN.BOTTOM; // Height of the canvas
 
@@ -157,7 +157,7 @@ class LineChart {
             .enter()
             .append("text")
             .attr("class", "filter-text")
-            .attr("x", (d, i) => vis.WIDTH - (i * 30))
+            .attr("x", (d, i) => vis.WIDTH - 7 - (i * 30))
             .attr("y", vis.legendOffsetY)
             .text(d => d)
             .attr("text-anchor", "left")
