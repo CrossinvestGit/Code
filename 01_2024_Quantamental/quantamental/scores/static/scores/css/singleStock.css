@@ -21,3 +21,36 @@
 .row {
     border: 2px solid blue;
 }
+
+.ui-slider-handle.ui-corner-all.ui-state-default {
+    background-color: white;
+    border-radius: 50%;
+    border: 1px solid #0e2238;
+}
+
+.ui-widget-header {
+    border: 1px solid #dddddd;
+    background: #0e2238;
+    color: #333333;
+    font-weight: bold;
+}
+
+#date-slider1 {
+    width: 50%;
+    border-radius: 10px;
+}
+
+
+.slider-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+
+#performance-line-area,
+#performance-bar-area {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

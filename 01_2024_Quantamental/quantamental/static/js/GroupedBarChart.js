@@ -62,9 +62,6 @@ class GroupedBarChart {
             .attr("class", "y axis")
             .call(d3.axisLeft(vis.y).ticks(null, "s"));
 
-        vis.color = d3.scaleOrdinal()
-            .range(d3.schemeCategory10);
-
         vis.manageData();
     }
 
@@ -76,6 +73,9 @@ class GroupedBarChart {
     updateVis() {
         const vis = this;
         const t = d3.transition().duration(750);
+
+        vis.color = d3.scaleOrdinal()
+            .range(d3.schemeCategory10);
 
         // Update scales
         vis.y.domain([d3.min(vis.data, d => d[vis.ydata]), d3.max(vis.data, d => d[vis.ydata])]);
