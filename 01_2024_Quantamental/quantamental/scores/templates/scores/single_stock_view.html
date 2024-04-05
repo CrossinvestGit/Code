@@ -66,7 +66,7 @@
     <!-- Performance -->
     <div class="row">
         <div class="col">
-            <div id="performance-chart-area"></div>
+            <div id="performance-line-area"></div>
 
             <div class="pb-1" id="slider-div">
                 <label>Date: <span id="dateLabel1">31/12/2009</span> - <span id="dateLabel2">07/03/2024</span></label>
@@ -74,7 +74,7 @@
             </div>
         </div>
         <div class="col">
-            Performance Bar Chart
+            <div id="performance-bar-area"></div>
         </div>
     </div>
 
@@ -105,6 +105,7 @@
     const sankeyTest = "{% static 'data/sankey.json' %}";
     const sankeyStocks = "{% static 'data/sankeyStocks.json' %}";
     const techstockTS = "{% static 'data/techstockTS2.csv' %}";
+    const groupedbar = "{% static 'data/groupedbarstock.json' %}";
 </script>
 
 <!-- <script>
@@ -118,6 +119,7 @@
 <script type="text/javascript" src="{% static 'js/HorizontalTable.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'js/Sankey.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'js/SankeyChart.js' %}"></script>
+<script type="text/javascript" src="{% static 'js/GroupedBarChart.js' %}"></script>
 <!-- <script type="text/javascript" src="{% static 'scores/js/main_vis.js' %}"></script> -->
 <script type="text/javascript" src="{% static 'scores/js/main_single_stock.js' %}"></script>
 {% endblock jsextra %}

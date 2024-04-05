@@ -48,8 +48,15 @@ d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
     tickers.push("NVDA");  // Adding "NVDA" to the tickers array
     let data0 = Object.values(data).filter(item => tickers.includes(item.Symbol));
 
-    lineChart = new LineChart(_parentElement = "#performance-chart-area", _data = data0, _xdata = "Date", _xlabel = "", _ydata = "Close", _ylabel = "USD", _group = "Symbol", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 }, _rebase = true);
+    lineChart = new LineChart(_parentElement = "#performance-line-area", _data = data0, _xdata = "Date", _xlabel = "", _ydata = "Close", _ylabel = "USD", _group = "Symbol", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 }, _rebase = true);
 
+})
+
+
+
+d3.json(groupedbar).then(data => { // Read the data from a CSV file
+    console.log(data)
+    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data);
 })
 
 
