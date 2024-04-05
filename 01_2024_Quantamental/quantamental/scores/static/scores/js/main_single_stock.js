@@ -61,7 +61,7 @@ d3.json(groupedbar).then(data => {
 
     const data0 = data.filter(d => tickers.includes(d.Stock));
 
-    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data0, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock");
+    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data0, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock", _legend = { noCol: 1, widthCol: 65 });
 })
 
 
