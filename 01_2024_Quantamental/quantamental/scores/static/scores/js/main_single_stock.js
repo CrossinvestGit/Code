@@ -56,7 +56,7 @@ d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
 
 d3.json(groupedbar).then(data => { // Read the data from a CSV file
     console.log(data)
-    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data);
+    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock");
 })
 
 

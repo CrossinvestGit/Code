@@ -1,8 +1,11 @@
 class GroupedBarChart {
 
-    constructor(_parentElement, _data) {
+    constructor(_parentElement, _data, _xdata, _ydata, _cdata) {
         this.parentElement = _parentElement;
         this.data = _data;
+        this.xdata = _xdata;
+        this.ydata = _ydata;
+        this.cdata = _cdata;
         this.initVis();
     }
 
@@ -30,12 +33,13 @@ class GroupedBarChart {
 
         // Define x-axis scale
         vis.fx = d3.scaleBand()
-            .domain(data.map(d => d.Year))
+            .domain(data.map(d => d[vis.xdata]))
             .rangeRound([0, vis.WIDTH])
             .paddingInner(0.1);
 
         // Extract unique stocks from the data
-        const stocks = Array.from(new Set(data.map(d => d.Stock)));
+        const stocks = Array.from(new Set(data.map(d => d[vis.cdata])));
+        // TODO: Rename this variable to something more meaningful
 
         // Define x-axis scale for grouped bars
         vis.x = d3.scaleBand()
@@ -50,29 +54,29 @@ class GroupedBarChart {
 
         // Define y-axis scale
         vis.y = d3.scaleLinear()
-            .domain([d3.min(data, d => d.Percentage), d3.max(data, d => d.Percentage)])
+            .domain([d3.min(data, d => d[vis.ydata]), d3.max(data, d => d[vis.ydata])])
             .rangeRound([vis.HEIGHT, 0])
             .nice();
 
         // Render the grouped bars
         vis.g.selectAll()
-            .data(d3.group(data, d => d.Year))
+            .data(d3.group(data, d => d[vis.xdata]))
             .enter().append("g")
             .attr("transform", d => `translate(${vis.fx(d[0])}, 0)`)
             .selectAll("rect")
             .data(d => d[1])
             .enter().append("rect")
-            .attr("x", d => vis.x(d.Stock))
+            .attr("x", d => vis.x(d[vis.cdata]))
             .attr("y", d => {
-                if (d.Percentage >= 0) {
-                    return vis.y(d.Percentage);
+                if (d[vis.ydata] >= 0) {
+                    return vis.y(d[vis.ydata]);
                 } else {
                     return vis.y(0);
                 }
             })
             .attr("width", vis.x.bandwidth())
-            .attr("height", d => Math.abs(vis.y(0) - vis.y(d.Percentage)))
-            .attr("fill", d => color(d.Stock));
+            .attr("height", d => Math.abs(vis.y(0) - vis.y(d[vis.ydata])))
+            .attr("fill", d => color(d[vis.cdata]));
 
         // Render x-axis
         vis.g.append("g")
