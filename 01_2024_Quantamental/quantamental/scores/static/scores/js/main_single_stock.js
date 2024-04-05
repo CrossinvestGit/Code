@@ -54,9 +54,14 @@ d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
 
 
 
-d3.json(groupedbar).then(data => { // Read the data from a CSV file
-    console.log(data)
-    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock");
+d3.json(groupedbar).then(data => {
+    let formSelectValue = $('.form-select').val();
+    let tickers = Array.isArray(formSelectValue) ? formSelectValue : [formSelectValue];
+    tickers.push("NVDA");  // Adding "NVDA" to the tickers array
+
+    const data0 = data.filter(d => tickers.includes(d.Stock));
+
+    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data0, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock");
 })
 
 
@@ -109,6 +114,18 @@ const updateSingleStockView = () => {
         lineChart.data = data1
         lineChart.manageData()
     })
+
+
+    d3.json(groupedbar).then(data => {
+        let formSelectValue = $('.form-select').val();
+        let tickers = Array.isArray(formSelectValue) ? formSelectValue : [formSelectValue];
+        tickers.push("NVDA");  // Adding "NVDA" to the tickers array
+
+        const data1 = data.filter(d => tickers.includes(d.Stock));
+        barChart.data = data1
+        barChart.manageData()
+    })
+
 }
 
 // Event listeners

@@ -11,14 +11,11 @@ class GroupedBarChart {
 
     initVis() {
         const vis = this;
-        const data = vis.data;
 
-        // Define margins and dimensions for the SVG container
         vis.MARGIN = { TOP: 50, RIGHT: 5, BOTTOM: 50, LEFT: 80 };
         vis.WIDTH = 829 - vis.MARGIN.LEFT - vis.MARGIN.RIGHT;
         vis.HEIGHT = 500 - vis.MARGIN.TOP - vis.MARGIN.BOTTOM;
 
-        // Create the SVG container
         vis.svg = d3.select(vis.parentElement).append("svg")
             .attr("viewBox", [0, 0, vis.WIDTH + vis.MARGIN.LEFT + vis.MARGIN.RIGHT, vis.HEIGHT + vis.MARGIN.TOP + vis.MARGIN.BOTTOM])
             .attr("width", vis.WIDTH + vis.MARGIN.LEFT + vis.MARGIN.RIGHT)
@@ -27,66 +24,108 @@ class GroupedBarChart {
             .style("-webkit-tap-highlight-color", "transparent")
             .style("overflow", "visible");
 
-        // Create a group element within the SVG
         vis.g = vis.svg.append("g")
             .attr("transform", `translate(${vis.MARGIN.LEFT}, ${vis.MARGIN.TOP})`);
 
-        // Define x-axis scale
+        vis.xLabel = vis.g.append("text")
+            .attr("class", "x axis-label")
+            .attr("x", vis.WIDTH / 2)
+            .attr("y", vis.HEIGHT + 60)
+            .attr("font-size", "20px")
+            .attr("text-anchor", "middle")
+
+        vis.yLabel = vis.g.append("text")
+            .attr("class", "y axis-label")
+            .attr("x", - (vis.HEIGHT / 2))
+            .attr("y", -60)
+            .attr("font-size", "20px")
+            .attr("text-anchor", "middle")
+            .attr("transform", "rotate(-90)");
+
         vis.fx = d3.scaleBand()
-            .domain(data.map(d => d[vis.xdata]))
+            .domain(vis.data.map(d => d[vis.xdata]))
             .rangeRound([0, vis.WIDTH])
             .paddingInner(0.1);
 
-        // Extract unique stocks from the data
-        const stocks = Array.from(new Set(data.map(d => d[vis.cdata])));
-        // TODO: Rename this variable to something more meaningful
-
-        // Define x-axis scale for grouped bars
         vis.x = d3.scaleBand()
-            .domain(stocks)
             .rangeRound([0, vis.fx.bandwidth()])
             .padding(0.05);
 
-        // Define color scale
-        const color = d3.scaleOrdinal()
-            .domain(stocks)
-            .range(d3.schemeCategory10);
-
-        // Define y-axis scale
         vis.y = d3.scaleLinear()
-            .domain([d3.min(data, d => d[vis.ydata]), d3.max(data, d => d[vis.ydata])])
             .rangeRound([vis.HEIGHT, 0])
             .nice();
 
-        // Render the grouped bars
-        vis.g.selectAll()
-            .data(d3.group(data, d => d[vis.xdata]))
-            .enter().append("g")
-            .attr("transform", d => `translate(${vis.fx(d[0])}, 0)`)
-            .selectAll("rect")
-            .data(d => d[1])
-            .enter().append("rect")
-            .attr("x", d => vis.x(d[vis.cdata]))
-            .attr("y", d => {
-                if (d[vis.ydata] >= 0) {
-                    return vis.y(d[vis.ydata]);
-                } else {
-                    return vis.y(0);
-                }
-            })
-            .attr("width", vis.x.bandwidth())
-            .attr("height", d => Math.abs(vis.y(0) - vis.y(d[vis.ydata])))
-            .attr("fill", d => color(d[vis.cdata]));
+        vis.fxAxisGroup = vis.g.append("g")
+            .attr("class", "x axis");
 
-        // Render x-axis
-        vis.g.append("g")
-            .attr("class", "x axis")
-            .attr("transform", `translate(0, ${vis.y(0)})`)  // Fixed x-axis at 0
-            .call(d3.axisBottom(vis.fx).tickSizeOuter(0));
-
-        // Render y-axis
-        vis.g.append("g")
+        vis.yAxisGroup = vis.g.append("g")
             .attr("class", "y axis")
             .call(d3.axisLeft(vis.y).ticks(null, "s"));
+
+        vis.color = d3.scaleOrdinal()
+            .range(d3.schemeCategory10);
+
+        vis.manageData();
+    }
+
+    manageData() {
+        const vis = this;
+        vis.updateVis();
+    }
+
+    updateVis() {
+        const vis = this;
+        const t = d3.transition().duration(750);
+
+        // Update scales
+        vis.y.domain([d3.min(vis.data, d => d[vis.ydata]), d3.max(vis.data, d => d[vis.ydata])]);
+        vis.x.domain(vis.data.map(d => d[vis.cdata]));
+        vis.fx.domain(vis.data.map(d => d[vis.xdata]));
+
+        // Draw rectangles
+        const rects = vis.g.selectAll("rect")
+            .data(vis.data, d => d[vis.xdata] + d[vis.cdata]);
+
+        rects.exit()
+            .transition(t)
+            .attr("height", 0)
+            .attr("y", vis.y(0))
+            .remove();
+
+        rects.enter().append("rect")
+            .merge(rects)
+            .transition(t)
+            .attr("x", d => vis.fx(d[vis.xdata]) + vis.x(d[vis.cdata]))
+            .attr("y", d => d[vis.ydata] >= 0 ? vis.y(d[vis.ydata]) : vis.y(0))
+            .attr("width", vis.x.bandwidth())
+            .attr("height", d => Math.abs(vis.y(0) - vis.y(d[vis.ydata])))
+            .attr("fill", d => vis.color(d[vis.cdata]));
+
+        // Draw y-axis
+        vis.yAxisCall = d3.axisLeft(vis.y);
+        vis.yAxisGroup.transition(t).call(vis.yAxisCall);
+
+        // Remove old x-axis group with transition
+        vis.fxAxisGroup.transition(t)
+            .style("opacity", 0)
+            .remove();
+
+        // Create a new group for x-axis labels
+        vis.fxAxisGroup = vis.g.append("g")
+            .attr("class", "x axis")
+            .style("opacity", 0); // Start with opacity 0
+
+        // Draw x-axis with transition
+        vis.fxAxisCall = d3.axisBottom(vis.fx);
+        vis.fxAxisGroup
+            .attr("transform", `translate(0, ${vis.y(0)})`)
+            .transition(t)
+            .style("opacity", 1) // Transition to opacity 1
+            .call(vis.fxAxisCall)
+            .selectAll("text")
+            .attr("y", "10")
+            .attr("x", "-5")
+            .attr("text-anchor", "end")
+            .attr("transform", "rotate(-40)");
     }
 }
