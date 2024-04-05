@@ -107,12 +107,9 @@ class GroupedBarChart {
         vis.canvas.selectAll(".legend-text").remove();
 
         vis.dataLabel = [...new Set(vis.data.map(item => item[vis.cdata]))];
-        console.log(vis.dataLabel)
         vis.legendOffsetX = (vis.WIDTH - (vis.dataLabel.length * vis.columnWidth)) / 2; // Offset for the legend in the x-direction
-        // vis.colors = new Map(vis.dataLabel.map((label, i) => [label, d3.schemeCategory10[i]])); // Create a map of colors for each label
 
         let i = 0; // Counter variable
-
         for (const thisDataLabel of vis.dataLabel) {
             const column = Math.floor(i / vis.maxDotsPerColumn); // Calculate the column index
             const dotX = vis.legendOffsetX + column * vis.columnWidth; // Calculate the x-coordinate of the legend dot
