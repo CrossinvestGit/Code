@@ -15,7 +15,7 @@
     <div class="row">
         <div class="col">
             <h2>Control Panel</h2>
-            <h3>Please select a stock and a client portfolio!</h3>
+            <h3>Stock</h3>
 
             <select class="form-select" aria-label="Default select example">
                 <option value="AMD">AMD</option>
@@ -27,7 +27,7 @@
                 <option value="QCOM">Qualcomm</option>
                 <option value="TXN">Texas Instruments</option>
             </select>
-
+            <h3>Client Portfolio</h3>
             <select class="form-select" aria-label="Default select example">
                 <option value="1">MSCI World</option>
                 <option value="2">NASDAQ 100</option>
@@ -87,10 +87,10 @@
     <!-- Multiples -->
     <div class="row">
         <div class="col">
-            Multiples Bar Chart
+            <div id="multiple-bar-area"></div>
         </div>
         <div class="col">
-            Spider Chart
+            <h2>Spider Chart</h2>
         </div>
     </div>
 
@@ -112,6 +112,7 @@
     const sankeyStocks = "{% static 'data/sankeyStocks.json' %}";
     const techstockTS = "{% static 'data/techstockTS2.csv' %}";
     const groupedbar = "{% static 'data/groupedbarstock.json' %}";
+    const groupedbar2 = "{% static 'data/multiples.json' %}";
 </script>
 
 <!-- <script>

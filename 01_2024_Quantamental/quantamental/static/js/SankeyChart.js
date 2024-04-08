@@ -28,8 +28,8 @@ class SankeyChart {
             .extent([[1, 5], [vis.WIDTH - 1, vis.HEIGHT - 5]]);
 
         const categoryColors = {
-            "Cost": "red",
-            "Benefit": "green",
+            "Cost": "#D22B2B",
+            "Benefit": "#24618e",
             "Product": "#083959"
         };
 

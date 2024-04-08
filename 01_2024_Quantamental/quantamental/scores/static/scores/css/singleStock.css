@@ -15,11 +15,11 @@
 .col-10,
 .col-11,
 .col-12 {
-    border: 2px solid green;
+    /* border: 2px solid green; */
 }
 
 .row {
-    border: 2px solid blue;
+    /* border: 2px solid blue; */
 }
 
 .ui-slider-handle.ui-corner-all.ui-state-default {

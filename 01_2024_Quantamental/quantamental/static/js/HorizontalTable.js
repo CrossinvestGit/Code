@@ -61,7 +61,6 @@ class HorizontalTable {
 
 
     initDynamicTable() {
-        console.log("miau")
         try {
             const table = this.table;
             $(table).DataTable({
@@ -112,7 +111,6 @@ class HorizontalTable {
         this.initStaticTable()
 
         if (this.dynamic) {
-            console.log("miau2")
             this.initDynamicTable()
         }
     }
