@@ -6,8 +6,8 @@ class LineChart {
         this.ydata = _ydata; // Y-axis data
         this.group = _group; // Grouping variable
         this.dimension = _dimension; // Dimension of the chart
-        this.xLabel = _xlabel; // X-axis label
-        this.yLabel = _ylabel; // Y-axis label
+        this.xlabel = _xlabel; // X-axis label
+        this.ylabel = _ylabel; // Y-axis label
         this.legend = _legend; // Legend configuration
         this.rebase = _rebase; // Rebase the data to a common starting point
         this.initVis(); // Initialize the chart
@@ -86,7 +86,7 @@ class LineChart {
             .attr("y", vis.HEIGHT + 60) // Set the y attribute
             .attr("text-anchor", "middle") // Set the text-anchor attribute
             .attr("font-size", "1rem") // Set the font-size attribute
-            .text(vis.xLabel); // Set the text content
+            .text(vis.xlabel); // Set the text content
 
         vis.yLabel = vis.canvas.append("text") // Append a text element to the canvas
             .attr("class", "y-axisLabel") // Set the class attribute
@@ -95,7 +95,7 @@ class LineChart {
             .attr("text-anchor", "middle") // Set the text-anchor attribute
             .attr("y", -50) // Set the y attribute
             .attr("font-size", "1rem") // Set the font-size attribute
-            .text(vis.yLabel); // Set the text content
+            .text(vis.ylabel); // Set the text content
 
         vis.x = d3.scaleUtc() // Create a time scale for the x-axis
             .range([0, vis.WIDTH]) // Set the range of the scale
@@ -264,7 +264,8 @@ class LineChart {
 
         vis.dataLabel = Array.from(vis.dataGrouped.keys()); // Get the unique labels from the grouped data
         vis.legendOffsetX = (vis.WIDTH - (vis.dataLabel.length * vis.columnWidth)) / 2; // Offset for the legend in the x-direction
-        vis.colors = new Map(vis.dataLabel.map((label, i) => [label, d3.schemeCategory10[i]])); // Create a map of colors for each label
+        // vis.colors = new Map(vis.dataLabel.map((label, i) => [label, d3.schemeCategory10[i]])); // Create a map of colors for each label
+        vis.colors = new Map(vis.dataLabel.map((label, i) => [label, ['#0e2238', '#d8e5f0'][i % 2]])); // Create a map of colors for each label
 
         let i = 0; // Counter variable
         for (const [thisDataLabel, thisData] of vis.dataGrouped) { // Iterate over the grouped data

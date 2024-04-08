@@ -1,5 +1,6 @@
 // Handles all the events and interactions for the visualization
 let barChart
+let barChart2
 let lineChart
 let horTable
 let sankeyChart
@@ -48,11 +49,9 @@ d3.dsv(";", techstockTS).then(data => { // Read the data from a CSV file
     tickers.push("NVDA");  // Adding "NVDA" to the tickers array
     let data0 = Object.values(data).filter(item => tickers.includes(item.Symbol));
 
-    lineChart = new LineChart(_parentElement = "#performance-line-area", _data = data0, _xdata = "Date", _xlabel = "", _ydata = "Close", _ylabel = "USD", _group = "Symbol", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 }, _rebase = true);
+    lineChart = new LineChart(_parentElement = "#performance-line-area", _data = data0, _xdata = "Date", _xlabel = "", _ydata = "Close", _ylabel = "", _group = "Symbol", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 }, _rebase = true);
 
 })
-
-
 
 d3.json(groupedbar).then(data => {
     let formSelectValue = $('.form-select').val();
@@ -61,8 +60,32 @@ d3.json(groupedbar).then(data => {
 
     const data0 = data.filter(d => tickers.includes(d.Stock));
 
-    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data0, _xdata = "Year", _ydata = "Percentage", _cdata = "Stock", _legend = { noCol: 1, widthCol: 65 });
+
+    barChart = new GroupedBarChart(_parentElement = "#performance-bar-area", _data = data0, _xdata = "Year", _xlabel = "", _ydata = "Percentage", _ylabel = "Percentage", _cdata = "Stock", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 });
 })
+
+
+d3.json(groupedbar2).then(data => {
+    let formSelectValue = $('.form-select').val();
+
+    dataGrouped = d3.group(data, d => d['Stock']);
+    data0 = dataGrouped.get(formSelectValue);
+
+    barChart2 = new GroupedBarChart(_parentElement = "#multiple-bar-area", _data = data0, _xdata = "Multiple", _xlabel = "", _ydata = "Value", _ylabel = "", _cdata = "Year", _dimension = { width: 829, height: 500 }, _legend = { noCol: 1, widthCol: 65 });
+})
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 const updateSingleStockView = () => {
@@ -125,6 +148,17 @@ const updateSingleStockView = () => {
         barChart.data = data1
         barChart.manageData()
     })
+
+
+    d3.json(groupedbar2).then(data => {
+        let formSelectValue = $('.form-select').val();
+
+        dataGrouped = d3.group(data, d => d['Stock']);
+        data1 = dataGrouped.get(formSelectValue);
+        barChart2.data = data1
+        barChart2.manageData()
+    })
+
 
 }
 
