@@ -5,7 +5,11 @@ let lineChart
 let horTable
 let sankeyChart
 
-// Sankey Chart Initialization
+
+// ----------------- Initialization -----------------
+
+
+// Sankey Chart
 d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
     let ticker = $('.form-select').val()
     sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 928, height: 450 });
@@ -76,16 +80,7 @@ d3.json(groupedbar2).then(data => {
 
 
 
-
-
-
-
-
-
-
-
-
-
+// ----------------- Update -----------------
 
 
 const updateSingleStockView = () => {
@@ -165,26 +160,3 @@ const updateSingleStockView = () => {
 // Event listeners
 $('.form-select').on("change", updateSingleStockView)
 
-
-
-
-
-
-
-
-
-
-
-
-
-// d3.csv(csvUrl).then(data => {
-
-//     cleanData = data
-//     for (const d of cleanData) {
-//         d.revenue = Number(d.revenue)
-//         d.profit = Number(d.profit)
-//     }
-
-//     filteredDataB = cleanData
-//     barChart = new BarChart("#barchart-area");
-// })

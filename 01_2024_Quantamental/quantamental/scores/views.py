@@ -62,7 +62,11 @@ def pf_view(request):
 
 @login_required
 def scores_view(request):
-    return render(request=request, template_name="scores/scores_view.html")
+    context = {"user": request.user}
+    print(context)
+    return render(
+        request=request, template_name="scores/scores_view.html", context=context
+    )
 
 
 @login_required
