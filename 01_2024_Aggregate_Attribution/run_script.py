@@ -100,6 +100,12 @@ def clean_data(df):
             "GASN SW",
             "BAEN SW",
             "VAGN SW",
+            "1COV GR",
+            "UEI GR",
+            "TAG GR",
+            "TRN IM",
+            "AZA LN",
+            "MRK GR",
         ],
         "Stock Ticker": [
             "GF SW",
@@ -109,6 +115,12 @@ def clean_data(df):
             "GALE SW",
             "BAER SW",
             "VACN SW",
+            "1COV GY",
+            "TRN IM",
+            "STERV FH",
+            "TISG IM",
+            "AZN LN",
+            "MRK GY",
         ],
     }
     ticker_map = pd.DataFrame(temp)
@@ -255,8 +267,13 @@ def main():
     Returns:
         None
     """
+
+
+pms = ["swiss", "health"]
+
+for pm in pms:
     # Load data
-    df = import_excel_file("input", "RIEPILOGO")
+    df = import_excel_file(pm, "RIEPILOGO")
 
     # Process data
     df = process_dataframe(df, "Cod Tit")
@@ -284,7 +301,7 @@ def main():
     # Create a Pandas Excel writer using the file path
     output_path = (
         r"Z:\14_Personal_Data\a.ramadani\Code"
-        r"\01_2024_Aggregate_Attribution\output\output_file.xlsx"
+        f"\\01_2024_Aggregate_Attribution\\output\\output_{pm}.xlsx"
     )
     write_data_to_excel(output_path, dict_of_dfs)
 

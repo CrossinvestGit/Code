@@ -48,6 +48,7 @@ def table_view_data(request):
     return JsonResponse(data, safe=False)
 
 
+@login_required
 def table_view_data_2(request):
     default_columns = ["code", "isin", "name"]
     data = list(models.Identification.objects.values(*default_columns))
@@ -61,7 +62,48 @@ def pf_view(request):
 
 @login_required
 def scores_view(request):
-    return render(request=request, template_name="scores/scores_view.html")
+    context = {"user": request.user}
+    print(context)
+    return render(
+        request=request, template_name="scores/scores_view.html", context=context
+    )
+
+
+@login_required
+def single_stock_view(request):
+    context = {"view_name": "single_stock"}
+    return render(
+        request=request,
+        template_name="scores/single_stock_view.html",
+        context=context,
+    )
+
+
+@login_required
+def single_stock_view_data_1(request):
+    default_columns = [
+        "description",
+    ]
+    ticker = request.GET.get("ticker")
+    print(ticker)
+    data = list(models.Qualdata.objects.filter(ticker=ticker).values(*default_columns))
+    return JsonResponse(data, safe=False)
+
+
+@login_required
+def single_stock_view_data_2(request):
+    default_columns = [
+        "name",
+        "ticker",
+        "exchange",
+        "sector",
+        "beta",
+        "mcap",
+        "dividendYield"
+    ]
+    ticker = request.GET.get("ticker")
+    data = list(models.Qualdata.objects.filter(ticker=ticker).values(*default_columns))
+    return JsonResponse(data, safe=False)
 
 
 @login_required
@@ -76,9 +118,6 @@ def vis_view(request):
         template_name="scores/vis_view.html",
         context=context,
     )
-
-
-# @login_required
 
 
 # FORMS:
