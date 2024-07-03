@@ -93,16 +93,15 @@ def single_stock_view_data_1(request):
 @login_required
 def single_stock_view_data_2(request):
     default_columns = [
-        "ticker",
         "name",
+        "ticker",
         "exchange",
         "sector",
         "beta",
         "mcap",
-        "dividendYield",
+        "dividendYield"
     ]
     ticker = request.GET.get("ticker")
-    print(ticker)
     data = list(models.Qualdata.objects.filter(ticker=ticker).values(*default_columns))
     return JsonResponse(data, safe=False)
 

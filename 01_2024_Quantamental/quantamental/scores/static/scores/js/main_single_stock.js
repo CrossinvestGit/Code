@@ -12,7 +12,7 @@ let sankeyChart
 // Sankey Chart
 d3.json(sankeyStocks).then(data => { // Fetches data from the specified JSON file
     let ticker = $('.form-select').val()
-    sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 928, height: 450 });
+    sankeyChart = new SankeyChart(_parentElement = "#sankey-chart-area", _data = data[ticker], _dimension = { width: 900, height: 350 });
 })
 
 // Qualitative Table

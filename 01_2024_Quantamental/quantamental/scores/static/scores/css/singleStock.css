@@ -1,5 +1,5 @@
 .container-fluid {
-    border: 2px solid red;
+    /* border: 2px solid red; */
 }
 
 .col,
@@ -81,4 +81,31 @@
     height: 25px;
     border-radius: 125px/12px;
     box-shadow: 0 0 8px #083959;
+}
+
+
+#miau2 {
+    margin-bottom: 50px;
+}
+
+.card {
+    border: none;
+    border-bottom: 3px solid #083959;
+    border-radius: 3px;
+    margin: 30px 10px 50px 10px;
+    padding: 30px 100px 0px 100px;
+    width: 1000px;
+}
+
+h5 {
+    color: #083959;
+}
+
+h6 {
+    display: inline-block;
+    color: #083959;
+}
+
+.form-select {
+    border-radius: 10px;
 }

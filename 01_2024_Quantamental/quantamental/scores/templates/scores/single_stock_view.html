@@ -12,7 +12,40 @@
 
 <div class="container-fluid">
     <!-- Control panel for content -->
-    <div class="row pb-5">
+
+    <div class="row justify-content-center">
+        <div class="card">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col">
+                        <h6>Stock:</h6>
+                        <select class="form-select" aria-label="Default select example">
+                            <option value="AMD">AMD</option>
+                            <option value="AAPL">Apple</option>
+                            <option value="AVGO">Broadcomm</option>
+                            <option value="IBM">IBM</option>
+                            <option value="INTC">Intel</option>
+                            <option value="NVDA">NVIDIA</option>
+                            <option value="QCOM">Qualcomm</option>
+                            <option value="TXN">Texas Instruments</option>
+                        </select>
+                    </div>
+
+                    <div class="col">
+                        <h6>Reference:</h6>
+                        <select class="form-select" aria-label="Default select example">
+                            <option value="1">MSCI World</option>
+                            <option value="2">NASDAQ 100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <!-- <div class="row pb-5">
         <div class="col">
             <h2>Control Panel</h2>
             <h3>Stock</h3>
@@ -34,16 +67,23 @@
             </select>
 
         </div>
-    </div>
+    </div> -->
 
     <div class="h-divider">
         <h3>Overview</h3>
         <div class="divider-shadow"></div>
     </div>
 
-    <!-- Qualitative content -->
     <div class="row">
-        <div class="col">
+        <div class="col-1"></div>
+        <div class="col-4">
+            <table class="table" style="width:100%" data-url="{% url 'scores:single_stock_view_data_2' %}" id="miau2">
+                <thead>
+                    <tr class="table-headers"></tr>
+                </thead>
+                <tbody class="table-body"></tbody>
+            </table>
+
             <table class="table" style="width:100%" data-url="{% url 'scores:single_stock_view_data_1' %}" id="miau1">
                 <thead>
                     <tr class="table-headers"></tr>
@@ -52,21 +92,11 @@
             </table>
         </div>
 
-        <div class="col">
-            <table class="table" style="width:100%" data-url="{% url 'scores:single_stock_view_data_2' %}" id="miau2">
-                <thead>
-                    <tr class="table-headers"></tr>
-                </thead>
-                <tbody class="table-body"></tbody>
-            </table>
+        <div class="col-7">
+            <div id="sankey-chart-area" class="col text-center"></div>
         </div>
     </div>
 
-    <!-- Sankey Chart -->
-    <div class="row">
-        <div id="sankey-chart-area" class="col text-center">
-        </div>
-    </div>
 
     <div class="h-divider">
         <h3>Performance</h3>

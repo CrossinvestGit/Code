@@ -38,6 +38,12 @@ class HorizontalTable {
                     // Round numbers to 2 decimal places
                     if (!isNaN(formattedValue) && Number.isFinite(formattedValue)) {
                         formattedValue = Math.round(formattedValue * 100) / 100;
+                        // Add "M" for millions and "B" for billions
+                        if (Math.abs(formattedValue) >= 1e6 && Math.abs(formattedValue) < 1e9) {
+                            formattedValue = (formattedValue / 1e6).toFixed(2) + "M";
+                        } else if (Math.abs(formattedValue) >= 1e9) {
+                            formattedValue = (formattedValue / 1e9).toFixed(2) + "B";
+                        }
                     }
                     // Add thousand separators
                     formattedValue = formattedValue.toLocaleString();
